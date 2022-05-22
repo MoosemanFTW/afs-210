@@ -1,3 +1,6 @@
+from operator import index, indexOf
+
+
 class Node:
     # A doubly-linked node.
     def __init__(self, data=None):
@@ -29,14 +32,14 @@ class DoublyLinkedList:
 
     def addFirst(self, data) -> None:
         # Add a node at the front of the list
-        new_node = Node(data, None, None) 
+        new_node = Node(data) 
         if self.head is None: 
             self.head = new_node 
             self.tail = self.head 
         else: 
-            new_node.prev = self.tail 
-            self.tail.next = new_node 
-            self.tail = new_node 
+            new_node.next = self.head
+            self.head.prev = new_node 
+            self.head = new_node 
 
             self.count += 1
 
@@ -53,6 +56,23 @@ class DoublyLinkedList:
         n.next = new_node
         new_node.prev = n
 
+    def getIndex(self, index):
+        curr = self.head
+        end = self.tail
+        i = 0
+        while curr is not end:
+            if (i == index):
+                return curr
+            else:
+                i += 1
+                curr = curr.next
+        print(curr.data)
+        if curr == self.tail:
+            if index == i +1:
+                return curr
+            else:
+                return False
+        # return False
     def addAtIndex(self, data, index):
         # Add a node to the list at the given index position
         # If index equals to the length of linked list, the node will be appended to the end of linked list
@@ -62,24 +82,40 @@ class DoublyLinkedList:
             print("List is empty")
             return
         else:
-            n = self.head
-            while n is not None:
-                if n.item == index:
-                    break
-                n = n.next
-            if n is None:
-                print("item not in the list")
-            else:
+            curr = self.getIndex(index)
+            if curr:
                 new_node = Node(data)
-                new_node.prev = n
-                new_node.next = n.next
-                if n.next is not None:
-                    n.next.prev = new_node
-                n.next = new_node
+                if curr:
+                    if not curr.prev:
+                        self.addFirst(data) 
+                    elif not curr.next:
+                        self.addLast(data)   
+                    else:
+                        curr.prev.next = new_node
+                        new_node.prev = curr.prev
+                        new_node.next = curr
+                        curr.prev = new_node
+            else:
+                print('OUT OF LIMITS')
+        
 
-    # def indexOf(self, data):
+    def indexOf(self, data):
     #     # Search through the list. Return the index position if data is found, otherwise return -1    
-
+        curr = self.head
+        end = self.tail
+        i = 0
+        while curr is not end:
+            if (curr.data == data):
+                return i
+            else:
+                i += 1
+                curr = curr.next
+        print(i)
+        if curr == self.tail:
+            if curr.data == data:
+                return i
+            else:
+                return False
 
 
     # def add(self, data) -> None:
@@ -158,6 +194,21 @@ class DoublyLinkedList:
         myStr = ""
         for node in self.iter():
              myStr += str(node)+ " "
-        return myStr
+        print(myStr)
 
-DoublyLinkedList.addFirst('DATA')
+
+
+list = DoublyLinkedList()
+list.addLast('May')
+list.addLast('the')
+list.addLast('Force')
+list.addLast('be')
+list.addLast('with')
+list.addLast('you')
+list.addLast('!')
+list.__str__()
+print(list.indexOf('with'))
+list.addAtIndex('us', 5)
+list.addAtIndex('all', 6)
+list.delete('you')
+list.__str__()
