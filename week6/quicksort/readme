@@ -1,0 +1,6 @@
+qs:0.00299835205078125
+qsm:0.018999814987182617
+qsl:0.05800914764404297
+qsr:1.15 - 0.15700078010559082
+I found that the provided code ran the fastest and most efficently but i beleive that may have been just from
+the code being more efficent as a whole. The random sort surprised me the most becasue of the wide margin of run times. I thought it would be much smaller due to comuter processing speeds.
